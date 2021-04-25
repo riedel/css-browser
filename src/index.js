@@ -3,9 +3,6 @@ import "@fortawesome/fontawesome-free/css/all.css";
 import "bootstrap/dist/css/bootstrap.css";
 import "./styles.scss";
 
-import MobileDetect from "mobile-detect";
-// import influent  funktioniert nicht, mit parcel weil es denkt, dass es unter node läuft
-
 document.getElementById("subject").value = Math.floor(
   (1 + Math.random()) * 0x10000
 ).toString(16);
@@ -25,12 +22,20 @@ const { Point } = require("@influxdata/influxdb-client");
 
 const writeApi = client.getWriteApi(org, bucket);
 
-const mobile = new MobileDetect(window.navigator.userAgent).mobile();
-if (mobile) {
-  writeApi.useDefaultTags({
-    mobile: mobile
-  });
+const MobileDetect = require("mobile-detect");
+
+const mobile = new MobileDetect(window.navigator.userAgent);
+
+var defaultTags = new Object();
+
+if (mobile.mobile()) {
+  defaultTags.mobile = mobile.mobile();
 }
+if (mobile.userAgent()) {
+  defaultTags.browser = mobile.userAgent();
+}
+
+writeApi.useDefaultTags(defaultTags);
 
 function deviceorientation_listener(/** @type {DeviceOrientationEvent} */ evt) {
   record(
