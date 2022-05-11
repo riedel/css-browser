@@ -1,0 +1,50 @@
+//@import "~bootstrap/scss/bootstrap"; 
+
+$text-muted: #6C757D;
+$light: #F8F9FA;
+$white: #FFF;
+$success: #28a745;
+
+.custom-switch.custom-switch-adaptive {
+  padding-left: 0;
+
+  .custom-control-label {
+    padding: 0 1.5em;
+    position: relative;
+    border-radius: 1em;
+    line-height: 1.4em;
+    color: $text-muted;
+    border: 1px solid $text-muted;
+    background-color: $light;
+    transition: background-color 200ms;
+
+    &::before {
+      content: none;
+    }
+    &::after {
+      position: absolute;
+      height: 1em;
+      top: 0.2em;
+      left: 0.2em;
+      width: 1em;
+      border-radius: 1em;
+
+      transition: left 200ms;
+    }
+  }
+
+
+  .custom-control-input:checked ~ .custom-control-label {
+    color: $white;
+    background-color: $success;
+    border-color: $success;
+
+    &::after {
+      background-color: $white;
+      left: calc(100% - 1.2em);
+
+      transform: none;
+      -webkit-transform: none;
+    }
+  }
+}
